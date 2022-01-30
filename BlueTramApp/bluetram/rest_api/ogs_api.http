@@ -1,0 +1,20 @@
+//this file contains the http requests that can be made to the OGS API, it is important to have the baseURL 
+
+POST {{baseUrl}}/oauth2/token/ HTTP/1.1
+Host: online-go.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 259
+
+<<<<<<< HEAD
+grant_type=password&username={{botusername}}&password={{botpassword}}&client_id={{client_id}}&client_secret={{client_secret}}
+//this request is used for access_token
+=======
+{
+    "grant_type" :"password",
+    "username" : "{{botusername}}",
+    "password" :"{{botpassword}}", 
+    "client_id" : "{{client_id}}",
+    "client_secret" :"{{client_secret}}"
+}
+//this request is used for auth
+>>>>>>> parent of e47cae6 (do not know the resaon for the huge change)
