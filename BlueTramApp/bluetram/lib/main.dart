@@ -81,10 +81,9 @@ class _MyHomePageState extends State<MyHomePage> {
     _channel.sink.add(
       jsonEncode(
         {
-          "auth": "hpdVRqV37ctKpoSfQ4y2M1RHHaIIre",
-          "game_id": 40727903,
-          "player_id": 1113291,
-          "move": "ad"
+          "player_id": 111329,
+          "username": "BlueTramBot",
+          "auth": "M8OUzRzdyclNajK7cmwg0yfsOnOrPL"
         },
       ),
     );

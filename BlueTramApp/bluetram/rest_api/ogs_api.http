@@ -1,20 +1,12 @@
-//this file contains the http requests that can be made to the OGS API, it is important to have the baseURL 
+POST {{baseUrl}}/api/v0/login HTTP/1.1
+content-length: 168
+content-type: application/json
+cookie: _ga=GA1.2.411460519.1634910286; __stripe_mid=42904a63-6a54-4963-b572-a657db64ce0379b059; csrftoken=xKrsyqRAe9aL3CGE6qPaKcCckrfrcNUVYIM1faR6JE8x8cr0FbG8X7SOpNqRHMH0; sessionid=t9rdu2dv3z34j44khbf9n0sn7e88nl2r
+origin: {{baseUrl}}
+referer: {{baseUrl}}/sign-in
 
-POST {{baseUrl}}/oauth2/token/ HTTP/1.1
-Host: online-go.com
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 259
-
-<<<<<<< HEAD
-grant_type=password&username={{botusername}}&password={{botpassword}}&client_id={{client_id}}&client_secret={{client_secret}}
-//this request is used for access_token
-=======
 {
-    "grant_type" :"password",
-    "username" : "{{botusername}}",
-    "password" :"{{botpassword}}", 
-    "client_id" : "{{client_id}}",
-    "client_secret" :"{{client_secret}}"
+    
+    "password" : "{{botpassword}}",
+    "username" : "{{botusername}}"
 }
-//this request is used for auth
->>>>>>> parent of e47cae6 (do not know the resaon for the huge change)
