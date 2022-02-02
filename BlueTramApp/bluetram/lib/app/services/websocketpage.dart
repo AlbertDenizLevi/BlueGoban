@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:bluetram/app/services/api_keys.dart';
+import 'dart:async';
 
 class Websocketpage extends StatefulWidget {
   const Websocketpage({
@@ -13,10 +14,11 @@ class Websocketpage extends StatefulWidget {
 
 class _WebsocketpageState extends State<Websocketpage> {
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
   final _channel = WebSocketChannel.connect(
     Uri.parse('wss://online-go.com/socket.io/?transport=websocket'),
   );
-
+  bool flagPingPong = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +34,14 @@ class _WebsocketpageState extends State<Websocketpage> {
               Form(
                 child: TextFormField(
                   controller: _controller,
-                  decoration:
-                      const InputDecoration(labelText: 'Send a message'),
+                  decoration: const InputDecoration(labelText: 'gameid'),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Form(
+                child: TextFormField(
+                  controller: _controller2,
+                  decoration: const InputDecoration(labelText: 'move coords'),
                 ),
               ),
               const SizedBox(height: 24),
@@ -58,14 +66,33 @@ class _WebsocketpageState extends State<Websocketpage> {
   }
 
   void _joinGame() async {
+    //if the game id entered is kinda right (probably should add a proper check using Rest api stuff, here is a working http request that gives your active game ids in a list)
+    /*
+    GET {{baseUrl}}/api/v1/ui/overview HTTP/1.1
+    ookie: _ga=GA1.2.411460519.1634910286; __stripe_mid=42904a63-6a54-4963-b572-a657db64ce0379b059; csrftoken=2LGUJl0blDvNHhbZqrg9EIlgR6yiEdhbJxQ7rmsep4pPF63KD2m14XAihbfIUF69; sessionid=uca1ww1etb23l3jvxsxfe24twf3yh6ql
+    referer: https://online-go.com/overview
+    content-type: application/json
+    */
     if (_controller.text.isNotEmpty & isNumeric(_controller.text)) {
       await webAuthenticate(_channel);
       await webChatConnect(_channel);
       await webChatJoin(_channel);
       await webGameConnect(_channel);
-      _channel.sink.add(
-          "422[\"game/move\",{\"game_id\":40727903,\"player_id\":1113291,\"move\":\"bb\",\"blur\":2646}]");
-      await Future.delayed(Duration(milliseconds: 500));
+
+      //if there is enough info for a new move and the button is pressed in a such occaciaon
+      if (_controller2.text.isNotEmpty &
+          RegExp(r'[a-t][a-t]').hasMatch(_controller2.text)) {
+        _channel.sink.add(
+            "420[\"game/move\",{\"game_id\":${_controller.text},\"player_id\":$playerId,\"move\":\"${_controller2.text}\",\"blur\":2646}]");
+      }
+
+      if (!flagPingPong) {
+        Timer t = new Timer.periodic(new Duration(seconds: 10), (t) {
+          _channel.sink.add(
+              "42[\"net/ping\",{\"client\":${DateTime.now().toUtc().millisecondsSinceEpoch},\"latency\":0}]");
+        });
+        flagPingPong = true;
+      }
     }
   }
 

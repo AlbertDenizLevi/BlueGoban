@@ -13,3 +13,7 @@ referer: {{baseUrl}}/sign-in
 
 ###
 
+GET {{baseUrl}}/api/v1/ui/overview HTTP/1.1
+cookie: _ga=GA1.2.411460519.1634910286; __stripe_mid=42904a63-6a54-4963-b572-a657db64ce0379b059; csrftoken=2LGUJl0blDvNHhbZqrg9EIlgR6yiEdhbJxQ7rmsep4pPF63KD2m14XAihbfIUF69; sessionid=uca1ww1etb23l3jvxsxfe24twf3yh6ql
+referer: https://online-go.com/overview
+content-type: application/json
