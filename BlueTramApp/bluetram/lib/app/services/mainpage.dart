@@ -23,6 +23,18 @@ class Mainpage extends StatelessWidget {
               Navigator.pushNamed(context, '/login');
             },
           ),
+          TextButton(
+            child: Text('bluetooth'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/bluetooth');
+            },
+          ),
+          TextButton(
+            child: Text('robotcontrol'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/robotcontrol');
+            },
+          ),
         ],
       )),
     );

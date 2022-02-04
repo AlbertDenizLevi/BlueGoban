@@ -85,7 +85,7 @@ class _WebsocketpageState extends State<Websocketpage> {
         _channel.sink.add(
             "420[\"game/move\",{\"game_id\":${_controller.text},\"player_id\":$playerId,\"move\":\"${_controller2.text}\",\"blur\":2646}]");
       }
-
+      //if you have not started the
       if (!flagPingPong) {
         Timer t = new Timer.periodic(new Duration(seconds: 10), (t) {
           _channel.sink.add(
