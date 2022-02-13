@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:bluetram/app/services/loginpage.dart';
-import 'package:bluetram/app/services/websocketpage.dart';
-import 'package:bluetram/app/services/mainpage.dart';
+import 'package:bluetram/app/pages/loginpage.dart';
+import 'package:bluetram/app/pages/websocketpage.dart';
+import 'package:bluetram/app/pages/mainpage.dart';
 //import 'package:bluetram/app/services/robotcontrol.dart';
-import 'package:bluetram/app/services/bluetooth.dart';
-import 'package:bluetram/app/services/gobantest.dart';
+import 'package:bluetram/app/bluetoothstuff/bluetooth.dart';
+import 'package:bluetram/app/goban/gobantest.dart';
 
 void main() => runApp(MaterialApp(
       initialRoute: '/',

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
-import './ChatPage.dart';
-import './DiscoveryPage.dart';
-import './SelectBondedDevicePage.dart';
+import 'ChatPage.dart';
+import 'DiscoveryPage.dart';
+import 'SelectBondedDevicePage.dart';
 
 // import './helpers/LineChart.dart';
 
