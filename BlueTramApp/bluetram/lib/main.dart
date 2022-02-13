@@ -5,6 +5,7 @@ import 'package:bluetram/app/services/websocketpage.dart';
 import 'package:bluetram/app/services/mainpage.dart';
 //import 'package:bluetram/app/services/robotcontrol.dart';
 import 'package:bluetram/app/services/bluetooth.dart';
+import 'package:bluetram/app/services/gobantest.dart';
 
 void main() => runApp(MaterialApp(
       initialRoute: '/',
@@ -15,5 +16,6 @@ void main() => runApp(MaterialApp(
         //'/cameracv': (context) => CameraCV(),
         '/bluetooth': (context) => Bluetooth(),
         //'/robotcontrol': (context) => RobotControl(),
+        '/goban': (context) => GobanTest(),
       },
     ));

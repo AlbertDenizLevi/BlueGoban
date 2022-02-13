@@ -35,6 +35,12 @@ class Mainpage extends StatelessWidget {
               Navigator.pushNamed(context, '/robotcontrol');
             },
           ),
+          TextButton(
+            child: Text('goban'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/goban');
+            },
+          ),
         ],
       )),
     );
