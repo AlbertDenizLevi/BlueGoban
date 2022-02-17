@@ -1,22 +1,49 @@
+import 'package:bluetram/app/controllers/game_controller.dart';
+//import 'package:bluetram/app/goban/stone.dart';
+import 'package:bluetram/app/goban/stonecolumn.dart';
+import 'package:bluetram/app/goban/woodenboard.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class GobanBoard extends StatelessWidget {
-  const GobanBoard({Key? key}) : super(key: key);
+  final GameController gameController = Get.find<GameController>();
+
+  List<StoneColumn> _buildBoard() {
+    int currentColumnNumber = 0;
+
+    return gameController.board
+        .map((boardColumn) => StoneColumn(
+              columnOfStonesPlayed: boardColumn,
+              columnNumber: currentColumnNumber++,
+            ))
+        .toList();
+  }
+
+  GobanBoard({Key? key, required this.size}) : super(key: key);
+
+  final Color primary = Colors.black;
+  final Color secondary = Colors.white;
+  //Color? boardcolor = Colors.orange[200];
+  final int size;
+  //GobanBoard.construct(this.size, this.primary, this.secondary);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-              color: Color(0xffc49133),
-              border: Border.all(
-                width: 4,
-              )),
-        )
-      ],
+    return Container(
+      width: 50 * size + 100,
+      height: 50 * (size) + 100,
+      color: Colors.orange[200],
+      child: Stack(children: [
+        Woodden(size: size),
+        //for (Stone stone in stones) {}
+        Padding(
+          padding: const EdgeInsets.all(60),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: _buildBoard(),
+          ),
+        ),
+      ]),
     );
   }
 }
