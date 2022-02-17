@@ -7,16 +7,24 @@ class GameController extends GetxController {
 
   void _buildBoard() {
     board = [
-      List.filled(9, 0),
-      List.filled(9, 0),
-      List.filled(9, 0),
-      List.filled(9, 0),
-      List.filled(9, 0),
-      List.filled(9, 0),
-      List.filled(9, 0),
-      List.filled(9, 0),
-      List.filled(9, 0),
+      List.filled(9, 1),
+      List.filled(9, 1),
+      List.filled(9, 1),
+      List.filled(9, 1),
+      List.filled(9, 1),
+      List.filled(9, 1),
+      List.filled(9, 1),
+      List.filled(9, 1),
+      List.filled(9, 1),
     ];
+  }
+
+  int getCoordValue(int columnNumber, int rowNumber) {
+    return board[columnNumber][rowNumber];
+  }
+
+  void setCoordValue(int columnNumber, int rowNumber, int color) {
+    board[columnNumber][rowNumber] = color;
   }
 
   @override

@@ -1,21 +1,36 @@
+import 'package:bluetram/app/controllers/game_controller.dart';
 import 'package:bluetram/app/goban/stone.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class StoneColumn extends StatelessWidget {
-  const StoneColumn({Key? key}) : super(key: key);
+  StoneColumn({
+    Key? key,
+    required this.columnOfStonesPlayed,
+    required this.columnNumber,
+  }) : super(key: key);
+  final GameController gameController = Get.find<GameController>();
+  final List<int> columnOfStonesPlayed;
+  final int columnNumber;
+
+  List<Stone> _buildStoneColumn() {
+    return columnOfStonesPlayed.reversed
+        .map((number) => number == 1
+            ? Stone(
+                currentStoneMode: stoneMode.WHITE,
+              )
+            : number == 2
+                ? Stone(
+                    currentStoneMode: stoneMode.BLACK,
+                  )
+                : Stone(
+                    currentStoneMode: stoneMode.EMPTY,
+                  ))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (var i = 0; i < 10; i++)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
-            child: Stone(
-              stoneColor: Colors.black,
-            ),
-          ),
-      ],
-    );
+    return Column(children: _buildStoneColumn());
   }
 }

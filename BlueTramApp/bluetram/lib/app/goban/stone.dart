@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 
+import 'stoneshape.dart';
+
+enum stoneMode {
+  EMPTY,
+  BLACK,
+  WHITE,
+}
+
 class Stone extends StatelessWidget {
-  final Color stoneColor;
-  const Stone({Key? key, required this.stoneColor}) : super(key: key);
+  const Stone({Key? key, required this.currentStoneMode}) : super(key: key);
+
+  final currentStoneMode;
+
+  StoneShape _buildStone() {
+    switch (this.currentStoneMode) {
+      case stoneMode.BLACK:
+        return StoneShape(stoneColor: Colors.black);
+      case stoneMode.WHITE:
+        return StoneShape(stoneColor: Colors.white);
+      default:
+        return StoneShape(stoneColor: Colors.transparent);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 30,
-      width: 30,
-      //padding: EdgeInsets.fromLTRB(0, 0, 50, 50),
-
-      decoration: BoxDecoration(
-          color: stoneColor,
-          borderRadius: BorderRadius.all(Radius.circular(200))),
-    );
+    return _buildStone();
   }
 }

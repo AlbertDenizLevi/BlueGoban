@@ -9,18 +9,18 @@ class Woodden extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        for (var i = 0; i < size; i++)
+        for (var i = 0; i < size - 1; i++)
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              for (var i = 0; i < size; i++)
+              for (var i = 0; i < size - 1; i++)
                 Container(
                   height: 50,
                   width: 50,
                   //padding: EdgeInsets.symmetric(),
                   decoration: BoxDecoration(
                     color: Colors.orange[200],
-                    border: Border.all(width: 2),
+                    border: Border.all(width: 1),
                   ),
                 )
             ],
