@@ -5,17 +5,34 @@ class GameController extends GetxController {
   List<List<int>> get board => _board.value;
   set board(List<List<int>> value) => _board.value = value;
 
+  RxBool _turnBlack = true.obs;
+  bool get turnBlack => _turnBlack.value;
+
   void _buildBoard() {
     board = [
-      [0, 0, 0, 0, 0, 0, 0, 0, 1],
-      List.filled(9, 1),
-      List.filled(9, 1),
-      List.filled(9, 1),
-      List.filled(9, 1),
-      List.filled(9, 1),
-      List.filled(9, 1),
-      List.filled(9, 1),
-      List.filled(9, 1),
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+    ];
+  }
+
+  void resetBoard() {
+    board = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
+      List.filled(9, 0),
     ];
   }
 
@@ -23,8 +40,20 @@ class GameController extends GetxController {
     return board[columnNumber][rowNumber];
   }
 
-  void setCoordValue(int columnNumber, int rowNumber, int color) {
-    board[columnNumber][rowNumber] = color;
+  void setCoordValue(int columnNumber, int rowNumber) {
+    final selectedCoord = board[columnNumber][rowNumber];
+    if (selectedCoord == 0) {
+      if (turnBlack) {
+        board[columnNumber][rowNumber] = 2; //2 is black stone
+      } else {
+        board[columnNumber][rowNumber] = 1; //1 is white stone
+      }
+    } //the coord is empty
+    else {
+      board[columnNumber][rowNumber] = (selectedCoord % 2) + 1; //1->2, 2->1
+    }
+    _turnBlack.value = !_turnBlack.value; //its next players turn now
+    //board[columnNumber][rowNumber] = color;
     update();
   }
 
@@ -32,6 +61,5 @@ class GameController extends GetxController {
   void onInit() {
     super.onInit();
     _buildBoard();
-    setCoordValue(4, 4, 2);
   }
 }

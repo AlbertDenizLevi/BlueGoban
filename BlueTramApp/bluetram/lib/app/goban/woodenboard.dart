@@ -15,8 +15,8 @@ class Woodden extends StatelessWidget {
             children: <Widget>[
               for (var i = 0; i < size - 1; i++)
                 Container(
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   //padding: EdgeInsets.symmetric(),
                   decoration: BoxDecoration(
                     color: Colors.orange[200],

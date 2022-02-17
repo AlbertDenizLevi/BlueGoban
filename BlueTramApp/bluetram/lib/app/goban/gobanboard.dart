@@ -29,22 +29,24 @@ class GobanBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50 * size + 100,
-      height: 50 * (size) + 100,
-      color: Colors.orange[200],
-      child: Stack(children: [
-        Woodden(size: size),
-        //for (Stone stone in stones) {}
-        Padding(
-          padding: const EdgeInsets.all(60),
-          child: GetBuilder<GameController>(
-            builder: (GetxController gameController) => Row(
-              children: _buildBoard(),
+    return Center(
+      child: Container(
+        width: 35 * size + 100,
+        height: 35 * (size) + 100,
+        color: Colors.orange[200],
+        child: Stack(children: [
+          Woodden(size: size),
+          //for (Stone stone in stones) {}
+          Padding(
+            padding: const EdgeInsets.all(32),
+            child: GetBuilder<GameController>(
+              builder: (GetxController gameController) => Row(
+                children: _buildBoard(),
+              ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }

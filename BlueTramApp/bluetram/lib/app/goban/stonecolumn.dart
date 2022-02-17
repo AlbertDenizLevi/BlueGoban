@@ -14,17 +14,25 @@ class StoneColumn extends StatelessWidget {
   final int columnNumber;
 
   List<Stone> _buildStoneColumn() {
+    int currentRowNumber = 0;
+
     return columnOfStonesPlayed
         .map((number) => number == 1
             ? Stone(
                 currentStoneMode: stoneMode.WHITE,
+                columnNumber: columnNumber,
+                rowNumber: currentRowNumber++,
               )
             : number == 2
                 ? Stone(
                     currentStoneMode: stoneMode.BLACK,
+                    columnNumber: columnNumber,
+                    rowNumber: currentRowNumber++,
                   )
                 : Stone(
                     currentStoneMode: stoneMode.EMPTY,
+                    columnNumber: columnNumber,
+                    rowNumber: currentRowNumber++,
                   ))
         .toList();
   }

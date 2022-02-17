@@ -1,4 +1,6 @@
+import 'package:bluetram/app/controllers/game_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'stoneshape.dart';
 
@@ -9,9 +11,16 @@ enum stoneMode {
 }
 
 class Stone extends StatelessWidget {
-  const Stone({Key? key, required this.currentStoneMode}) : super(key: key);
-
+  Stone(
+      {Key? key,
+      required this.currentStoneMode,
+      required this.columnNumber,
+      required this.rowNumber})
+      : super(key: key);
+  final GameController gameController = Get.find<GameController>();
   final currentStoneMode;
+  final int columnNumber;
+  final int rowNumber;
 
   StoneShape _buildStone() {
     switch (this.currentStoneMode) {
@@ -26,6 +35,8 @@ class Stone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildStone();
+    return GestureDetector(
+        onTap: () => gameController.setCoordValue(columnNumber, rowNumber),
+        child: _buildStone());
   }
 }

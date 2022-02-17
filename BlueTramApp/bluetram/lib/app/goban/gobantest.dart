@@ -5,7 +5,11 @@ import 'package:get/get.dart';
 
 class GobanTest extends StatelessWidget {
   void play11() {
-    gameController.setCoordValue(1, 1, 0);
+    gameController.setCoordValue(1, 1);
+  }
+
+  void resetBoard() {
+    gameController.resetBoard();
   }
 
   GobanTest({Key? key}) : super(key: key);
