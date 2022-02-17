@@ -38,9 +38,10 @@ class GobanBoard extends StatelessWidget {
         //for (Stone stone in stones) {}
         Padding(
           padding: const EdgeInsets.all(60),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: _buildBoard(),
+          child: GetBuilder<GameController>(
+            builder: (GetxController gameController) => Row(
+              children: _buildBoard(),
+            ),
           ),
         ),
       ]),

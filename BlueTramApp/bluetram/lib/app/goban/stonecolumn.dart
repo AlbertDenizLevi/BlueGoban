@@ -14,7 +14,7 @@ class StoneColumn extends StatelessWidget {
   final int columnNumber;
 
   List<Stone> _buildStoneColumn() {
-    return columnOfStonesPlayed.reversed
+    return columnOfStonesPlayed
         .map((number) => number == 1
             ? Stone(
                 currentStoneMode: stoneMode.WHITE,

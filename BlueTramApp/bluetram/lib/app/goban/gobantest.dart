@@ -1,17 +1,32 @@
 import 'package:bluetram/app/goban/gobanboard.dart';
 import 'package:flutter/material.dart';
+import 'package:bluetram/app/controllers/game_controller.dart';
+import 'package:get/get.dart';
 
 class GobanTest extends StatelessWidget {
-  const GobanTest({Key? key}) : super(key: key);
+  void play11() {
+    gameController.setCoordValue(1, 1, 0);
+  }
 
+  GobanTest({Key? key}) : super(key: key);
+  final GameController gameController = Get.find<GameController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('GOBAN'),
       ),
-      body: GobanBoard(
-        size: 9,
+      body: Column(
+        children: [
+          GobanBoard(
+            size: 9,
+          ),
+          TextButton(
+              onPressed: () {
+                play11();
+              },
+              child: Text("press to play 1-1"))
+        ],
       ),
     );
   }

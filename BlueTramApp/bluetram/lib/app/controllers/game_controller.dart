@@ -7,7 +7,7 @@ class GameController extends GetxController {
 
   void _buildBoard() {
     board = [
-      List.filled(9, 1),
+      [0, 0, 0, 0, 0, 0, 0, 0, 1],
       List.filled(9, 1),
       List.filled(9, 1),
       List.filled(9, 1),
@@ -25,11 +25,13 @@ class GameController extends GetxController {
 
   void setCoordValue(int columnNumber, int rowNumber, int color) {
     board[columnNumber][rowNumber] = color;
+    update();
   }
 
   @override
   void onInit() {
     super.onInit();
     _buildBoard();
+    setCoordValue(4, 4, 2);
   }
 }
