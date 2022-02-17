@@ -34,6 +34,7 @@ class GameController extends GetxController {
       List.filled(9, 0),
       List.filled(9, 0),
     ];
+    update();
   }
 
   int getCoordValue(int columnNumber, int rowNumber) {

@@ -6,5 +6,6 @@ class MainBindings extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<GameController>(() => GameController());
+    //Get.lazyPut<WebsocketController>(() => WebsocketController());
   }
 }

@@ -27,9 +27,9 @@ class GobanTest extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                play11();
+                resetBoard();
               },
-              child: Text("press to play 1-1"))
+              child: Text("RESET"))
         ],
       ),
     );

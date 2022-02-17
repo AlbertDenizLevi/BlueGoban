@@ -13,10 +13,11 @@ void main() => runApp(GetMaterialApp(
         initialBinding: MainBindings(),
         initialRoute: '/',
         getPages: [
-          GetPage(name: '/', page: () => Mainpage()),
+          GetPage(name: '/', page: () => Mainpage(), binding: MainBindings()),
           GetPage(name: '/websocket', page: () => Websocketpage()),
           GetPage(name: '/bluetooth', page: () => Bluetooth()),
-          GetPage(name: '/goban', page: () => GobanTest())
+          GetPage(
+              name: '/goban', page: () => GobanTest(), binding: MainBindings())
         ] /*
       routes: {
         '/': (context) => Mainpage(),
