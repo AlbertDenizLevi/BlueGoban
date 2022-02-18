@@ -88,6 +88,8 @@ class GameController extends GetxController {
   }
 
   void makeBoardFromMoveList(List<List<dynamic>> moves) {
+    _turnBlack.value =
+        true; // so that when you move then reset the table it doenst put the white first
     for (List<dynamic> move in moves) {
       setStone(move[0], move[1]);
     }
