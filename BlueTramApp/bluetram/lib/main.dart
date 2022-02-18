@@ -18,7 +18,7 @@ void main() => runApp(GetMaterialApp(
           GetPage(name: '/bluetooth', page: () => Bluetooth()),
           GetPage(
               name: '/goban', page: () => GobanTest(), binding: MainBindings()),
-          GetPage(name: '/login', page: () => Loginpage())
+          GetPage(name: '/login', page: () => Loginpage()),
         ] /*
       routes: {
         '/': (context) => Mainpage(),
