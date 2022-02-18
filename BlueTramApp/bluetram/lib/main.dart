@@ -17,7 +17,8 @@ void main() => runApp(GetMaterialApp(
           GetPage(name: '/websocket', page: () => Websocketpage()),
           GetPage(name: '/bluetooth', page: () => Bluetooth()),
           GetPage(
-              name: '/goban', page: () => GobanTest(), binding: MainBindings())
+              name: '/goban', page: () => GobanTest(), binding: MainBindings()),
+          GetPage(name: '/login', page: () => Loginpage())
         ] /*
       routes: {
         '/': (context) => Mainpage(),
