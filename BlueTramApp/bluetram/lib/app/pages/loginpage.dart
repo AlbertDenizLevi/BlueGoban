@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bluetram/app/services/httpallmovesobject.dart';
 import 'package:http/http.dart' as http;
 
+//purpose of this page is to check if the json parse works.
 class Loginpage extends StatelessWidget {
   const Loginpage({Key? key}) : super(key: key);
 

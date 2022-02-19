@@ -30,15 +30,22 @@ class GobanBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
+      //center the whole board
       child: Container(
-        width: 35 * size + 100,
+        //add the wood colored base of the board
+        width: 35 * size +
+            100, // changing any number here will cause shifting of the stones, have not made the math to make sure that does not happen and  the board will not be modular until I figure that out
         height: 35 * (size) + 100,
-        color: Colors.orange[200],
+        color: Colors.orange[
+            200], // should probably keep this color in a differet file TODO
         child: Stack(children: [
-          Woodden(size: size),
-          //for (Stone stone in stones) {}
+          Woodden(
+              size:
+                  size), //the squares, these are done before the stones themselves since the board is always below the stones
+
           Padding(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(
+                32), //this moves the stones created by the buildStones function into the right place
             child: GetBuilder<GameController>(
               builder: (GetxController gameController) => Row(
                 children: _buildBoard(),

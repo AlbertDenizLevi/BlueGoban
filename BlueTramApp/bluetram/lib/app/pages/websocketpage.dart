@@ -3,6 +3,12 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:bluetram/app/services/api_keys.dart';
 import 'dart:async';
 
+/*
+Here I will try to explain what this page does;
+
+As you can see there are 2 controllers for two text boxes that are used as inputs. These inputs are the gameid and the move made TODO write it out
+*/
+
 class Websocketpage extends StatefulWidget {
   const Websocketpage({
     Key? key,

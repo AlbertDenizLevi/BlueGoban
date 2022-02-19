@@ -1,7 +1,5 @@
-// To parse this JSON data, do
-// https://app.quicktype.io/ was used when making this codde, know that the website does not support null safety jsut yet, required needs to be toggled and after toggling you need to erase th @ manually, you also need to null safe all the variables after choosing all properties optional toggle
-//     final allMoves = allMovesFromJson(jsonString);
-
+// https://app.quicktype.io/ was used when making this codde, know that the website does not support null safety jsut yet, required needs to be toggled and after toggling you need to erase th @ manually, you also need to null safe all the variables after choosing "all properties optional" toggle
+//final allMoves = AllMoves.fromRawJson(response.body);
 import 'dart:convert';
 
 class AllMoves {

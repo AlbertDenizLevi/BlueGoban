@@ -9,7 +9,7 @@ class GameController extends GetxController {
   RxInt _lastRow = 0.obs; //player move listeners
   int get lastRow => _lastRow.value;
 
-  RxBool _turnBlack = true.obs;
+  RxBool _turnBlack = true.obs; //controls whos turn it is to move
   bool get turnBlack => _turnBlack.value;
 
   void _buildBoard() {
@@ -27,6 +27,7 @@ class GameController extends GetxController {
   }
 
   void resetBoard() {
+    //used for the button rather than construction of the controller
     board = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       List.filled(9, 0),
@@ -38,10 +39,12 @@ class GameController extends GetxController {
       List.filled(9, 0),
       List.filled(9, 0),
     ];
+    _turnBlack.value = true;
     update();
   }
 
   int getCoordValue(int columnNumber, int rowNumber) {
+    //never used but good for testing, getter for board matrix
     return board[columnNumber][rowNumber];
   }
 
@@ -91,6 +94,7 @@ class GameController extends GetxController {
     _turnBlack.value =
         true; // so that when you move then reset the table it doenst put the white first
     for (List<dynamic> move in moves) {
+      //for each element on the move list set a stone on the described location. The move list from the json is ofetn made of a list of list of 3 numbers, column number of the play, row number of the play and the latency of the move.
       setStone(move[0], move[1]);
     }
     update();

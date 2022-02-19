@@ -13,12 +13,28 @@ void main() => runApp(GetMaterialApp(
         initialBinding: MainBindings(),
         initialRoute: '/',
         getPages: [
-          GetPage(name: '/', page: () => Mainpage(), binding: MainBindings()),
-          GetPage(name: '/websocket', page: () => Websocketpage()),
-          GetPage(name: '/bluetooth', page: () => Bluetooth()),
           GetPage(
-              name: '/goban', page: () => GobanTest(), binding: MainBindings()),
-          GetPage(name: '/login', page: () => Loginpage()),
+              name: '/',
+              page: () => Mainpage(),
+              binding:
+                  MainBindings()), //just the buttons for all the pages below, want to make this a side menu
+          GetPage(
+              name: '/websocket',
+              page: () =>
+                  Websocketpage()), //connect to the websocket of online-go.com, every move reconnects
+          GetPage(
+              name: '/bluetooth',
+              page: () =>
+                  Bluetooth()), //completely copied then simlified from the flutter blue serializable's example code
+          GetPage(
+              name: '/goban',
+              page: () => GobanTest(),
+              binding:
+                  MainBindings()), //currently used for everything, from goban itself to online play to json parsiing
+          GetPage(
+              name: '/login',
+              page: () =>
+                  Loginpage()), //currently used for testing json parsing
         ] /*
       routes: {
         '/': (context) => Mainpage(),
