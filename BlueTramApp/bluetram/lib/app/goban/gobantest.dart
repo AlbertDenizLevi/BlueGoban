@@ -8,7 +8,9 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:bluetram/app/services/api_keys.dart';
 import 'dart:async';
 
+//TODO fix the immutable issue by making gameid and that boolean part of the game controller
 Future<AllMoves> fetchAllMoves() async {
+  //fetches a json that among MANY other things contains the move list of all the active games a player has
   final response = await http
       .get(Uri.parse('https://online-go.com/api/v1/players/1113291/full'));
 
@@ -27,11 +29,12 @@ Future<AllMoves> fetchAllMoves() async {
 }
 
 class GobanTest extends StatelessWidget {
-  void play11() {
+  /* void play11() {//test code to check if set coord works
     gameController.setCoordValue(1, 1);
-  }
+  } */
 
   void resetBoard() {
+    //clears the board of stones
     gameController.resetBoard();
   }
 
@@ -45,7 +48,8 @@ class GobanTest extends StatelessWidget {
   }
 
   Future<int> _joinGame() async {
-    //if the game id entered is kinda right (probably should add a proper check using Rest api stuff, here is a working http request that gives your active game ids in a list)
+    //joins the first game on the active games list
+
     /*
     GET {{baseUrl}}/api/v1/ui/overview HTTP/1.1
     ookie: _ga=GA1.2.411460519.1634910286; __stripe_mid=42904a63-6a54-4963-b572-a657db64ce0379b059; csrftoken=2LGUJl0blDvNHhbZqrg9EIlgR6yiEdhbJxQ7rmsep4pPF63KD2m14XAihbfIUF69; sessionid=uca1ww1etb23l3jvxsxfe24twf3yh6ql
@@ -59,12 +63,15 @@ class GobanTest extends StatelessWidget {
     await webChatJoin(_channel, gameid);
     await webGameConnect(_channel, gameid);
 
-    //if you have not started the
+    //if you have not started the pingpong of the websocket which keeps the socket alive, start it
     if (!flagPingPong) {
       Timer t = new Timer.periodic(new Duration(seconds: 10), (t) {
+        //every then seconds send a ping
         _channel.sink.add(
             "42[\"net/ping\",{\"client\":${DateTime.now().toUtc().millisecondsSinceEpoch},\"latency\":0}]");
       });
+      print(
+          "42[\"net/ping\",{\"client\":${DateTime.now().toUtc().millisecondsSinceEpoch},\"latency\":0}]");
       flagPingPong = true;
     }
     return allMoves.activeGames![0].id;
@@ -104,7 +111,7 @@ class GobanTest extends StatelessWidget {
 
   Future<void> acceptPlay(String gameid) async {
     _channel.sink.add(
-        "420[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${gameController.lastColumn.toString()},${gameController.lastRow.toString()}\",\"blur\":2646}]");
+        "420[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${String.fromCharCode(97 + gameController.lastColumn)}${String.fromCharCode(97 + gameController.lastRow)}\",\"blur\":2646}]");
   }
 
   GobanTest({Key? key}) : super(key: key);
