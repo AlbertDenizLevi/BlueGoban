@@ -48,7 +48,7 @@ class GobanTest extends StatelessWidget {
     return allMoves.activeGames![selectedgame].id;
   }
 
-  Future<int> _joinGame() async {
+  Future<void> _joinGame(String gameid) async {
     //joins the first game on the active games list
 
     /*
@@ -58,13 +58,13 @@ class GobanTest extends StatelessWidget {
     content-type: application/json
     */
     AllMoves allMoves = await fetchAllMoves();
-    String gameid = allMoves.activeGames![0].id.toString();
+    //String gameid = allMoves.activeGames![0].id.toString();
     String websocketIN = "test";
     await webAuthenticate(_channel);
     await webChatConnect(_channel);
     await webChatJoin(_channel, gameid);
     await webGameConnect(_channel, gameid);
-
+    listenToOpponent();
     //if you have not started the pingpong of the websocket which keeps the socket alive, start it
     if (!flagPingPong) {
       while (true) {
@@ -78,7 +78,6 @@ class GobanTest extends StatelessWidget {
         flagPingPong = true;
       }
     }
-    return allMoves.activeGames![0].id;
   }
 
   //I wanted to simplify the websocket string but could not dare to yet
@@ -119,14 +118,14 @@ class GobanTest extends StatelessWidget {
 
   Future<void> acceptPlay(String gameid) async {
     _channel.sink.add(
-        "420[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${String.fromCharCode(97 + gameController.lastColumn)}${String.fromCharCode(97 + gameController.lastRow)}\",\"blur\":2646}]");
+        "421[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${String.fromCharCode(97 + gameController.lastColumn)}${String.fromCharCode(97 + gameController.lastRow)}\",\"blur\":2646}]");
 
     print(
-        "420[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${String.fromCharCode(97 + gameController.lastColumn)}${String.fromCharCode(97 + gameController.lastRow)}\",\"blur\":2646}]");
+        "421[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${String.fromCharCode(97 + gameController.lastColumn)}${String.fromCharCode(97 + gameController.lastRow)}\",\"blur\":2646}]");
   }
 
   Future<void> listenToOpponent() async {
-    final subscription = _channel.stream.listen((data) => {
+    var subscription = _channel.stream.listen((data) => {
           if (RegExp(
                   "42\\[\"game\\/[0-9]+\/move\",{\"game_id\":[0-9]+,\"move_number\":[0-9]*,\"move\":\\[[0-9]*,[0-9]*,[0-9]*\\]}\\]")
               .hasMatch(data))
@@ -134,8 +133,8 @@ class GobanTest extends StatelessWidget {
               //print("Opponent played a move");
               //final Gamemove gamemove = Gamemove.fromRawJson(websocketIN.substring(2));
               //It seems I am not able to parse the websocket like a json, the class I created for was for nothing, but I managed to edit the string to get the coords of the moves
-              print("found something")
-              /* gameController.setCoordValue(
+              //print("found something")
+              gameController.setStone(
                   int.parse(data
                       .substring(3, data.length - 3)
                       .split("[")[1]
@@ -143,12 +142,11 @@ class GobanTest extends StatelessWidget {
                   int.parse(data
                       .substring(3, data.length - 3)
                       .split("[")[1]
-                      .split(",")[1])) */
+                      .split(",")[1]))
             }
           else
-            print("is not a move ${data.toString()}") //print(data.toString())
+            print("${data.toString()}") //print(data.toString())
         });
-    subscription.cancel();
   }
 
   GobanTest({Key? key}) : super(key: key);
@@ -176,10 +174,10 @@ class GobanTest extends StatelessWidget {
               },
               child: Text("RESET")),
           TextButton(
-              onPressed: () async => {await setBoardFromGame(0)},
+              onPressed: () async => {gameid = await setBoardFromGame(0)},
               child: Text("Set game 0")),
           TextButton(
-              onPressed: () async => {gameid = await _joinGame()},
+              onPressed: () async => {_joinGame(gameid.toString())},
               child: Text("Join Game")),
           TextButton(
               onPressed: () async => {await acceptPlay(gameid.toString())},
