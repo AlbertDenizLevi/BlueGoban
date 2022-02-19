@@ -71,7 +71,14 @@ class GameController extends GetxController {
 
   //this is used for opponents moves, the difference is there is no update on the last move made by the player of ours, we use that update to send a message to the ogs
   void setStone(int columnNumber, int rowNumber) {
+    if (columnNumber < 0) {
+      _turnBlack.value = !_turnBlack.value;
+      return;
+    } //there has been a pass
+
     final selectedCoord = board[columnNumber][rowNumber];
+
+    print("set stone $columnNumber $rowNumber");
     if (selectedCoord == 0) {
       if (turnBlack) {
         board[columnNumber][rowNumber] = 2; //2 is black stone
@@ -87,10 +94,12 @@ class GameController extends GetxController {
     //board[columnNumber][rowNumber] = color;
     //_lastColumn.value = columnNumber;
     //_lastRow.value = rowNumber;
+    print("set stone $columnNumber $rowNumber");
     update();
   }
 
   void makeBoardFromMoveList(List<List<dynamic>> moves) {
+    print(moves);
     _turnBlack.value =
         true; // so that when you move then reset the table it doenst put the white first
     for (List<dynamic> move in moves) {

@@ -1,3 +1,4 @@
+import 'package:bluetram/app/services/gamemovewebsocket.dart';
 import 'package:flutter/material.dart';
 import 'package:bluetram/app/services/httpallmovesobject.dart';
 import 'package:http/http.dart' as http;
@@ -58,6 +59,7 @@ class GobanTest extends StatelessWidget {
     */
     AllMoves allMoves = await fetchAllMoves();
     String gameid = allMoves.activeGames![0].id.toString();
+    String websocketIN = "test";
     await webAuthenticate(_channel);
     await webChatConnect(_channel);
     await webChatJoin(_channel, gameid);
@@ -65,14 +67,16 @@ class GobanTest extends StatelessWidget {
 
     //if you have not started the pingpong of the websocket which keeps the socket alive, start it
     if (!flagPingPong) {
-      Timer t = new Timer.periodic(new Duration(seconds: 10), (t) {
+      while (true) {
+        await Future.delayed(Duration(milliseconds: 10000));
         //every then seconds send a ping
         _channel.sink.add(
             "42[\"net/ping\",{\"client\":${DateTime.now().toUtc().millisecondsSinceEpoch},\"latency\":0}]");
-      });
-      print(
-          "42[\"net/ping\",{\"client\":${DateTime.now().toUtc().millisecondsSinceEpoch},\"latency\":0}]");
-      flagPingPong = true;
+
+        print(
+            "42[\"net/ping\",{\"client\":${DateTime.now().toUtc().millisecondsSinceEpoch},\"latency\":0}]");
+        flagPingPong = true;
+      }
     }
     return allMoves.activeGames![0].id;
   }
@@ -82,12 +86,14 @@ class GobanTest extends StatelessWidget {
     _channelq.sink.add(
         "42[\"chat/connect\",{\"auth\":\"$chatAuth\",\"player_id\":$playerId,\"ranking\":24,\"username\":\"$botusername\",\"ui_class\":\"provisional\"}]");
     await Future.delayed(Duration(milliseconds: 500));
+    print("chat/connect");
   }
 
   Future<void> webGameConnect(WebSocketChannel _channelq, String gameid) async {
     _channelq.sink.add(
         "42[\"game/connect\",{\"game_id\":$gameid,\"player_id\":$playerId,\"chat\":true}]");
     await Future.delayed(Duration(milliseconds: 500));
+    print("game/connect");
   }
 
   //https://stackoverflow.com/a/24085491
@@ -101,17 +107,48 @@ class GobanTest extends StatelessWidget {
   Future<void> webChatJoin(WebSocketChannel _channelq, String gameid) async {
     _channelq.sink.add("42[\"chat/join\",{\"channel\":\"game-$gameid\"}]");
     await Future.delayed(Duration(milliseconds: 500));
+    print("chat/join");
   }
 
   Future<void> webAuthenticate(WebSocketChannel _channelq) async {
     _channelq.sink.add(
         "42[\"authenticate\",{\"auth\":\"$chatAuth\",\"player_id\":$playerId,\"username\":\"$botusername\",\"jwt\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhbm9ueW1vdXMiOmZhbHNlLCJpZCI6MTExMzI5MSwidXNlcm5hbWUiOiJCbHVlVHJhbUJvdCIsInJlZ2lzdHJhdGlvbl9kYXRlIjoiMjAyMi0wMS0yNiAxOTozMzo1MC4yMjE2MDgrMDA6MDAiLCJyYXRpbmdzIjp7InZlcnNpb24iOjUsIm92ZXJhbGwiOnsicmF0aW5nIjoxNTAwLCJkZXZpYXRpb24iOjM1MCwidm9sYXRpbGl0eSI6MC4wNn19LCJjb3VudHJ5IjoidW4iLCJwcm9mZXNzaW9uYWwiOmZhbHNlLCJyYW5raW5nIjoyNCwicHJvdmlzaW9uYWwiOjEsImNhbl9jcmVhdGVfdG91cm5hbWVudHMiOnRydWUsImlzX21vZGVyYXRvciI6ZmFsc2UsImlzX3N1cGVydXNlciI6ZmFsc2UsImlzX3RvdXJuYW1lbnRfbW9kZXJhdG9yIjpmYWxzZSwic3VwcG9ydGVyIjpmYWxzZSwic3VwcG9ydGVyX2xldmVsIjowLCJ0b3VybmFtZW50X2FkbWluIjpmYWxzZSwidWlfY2xhc3MiOiJwcm92aXNpb25hbCIsImljb24iOiJodHRwczovL3NlY3VyZS5ncmF2YXRhci5jb20vYXZhdGFyL2E3MTYzOWVmZjYyZmVlZmViZDU1Njk0YmIyY2Y2OGViP3M9MzImZD1yZXRybyIsImVtYWlsIjoiIiwiZW1haWxfdmFsaWRhdGVkIjp0cnVlLCJpc19hbm5vdW5jZXIiOmZhbHNlfQ.CsSIWaoBOG21NZGxoPXXVF_FGIfXDfcjxntXu6XbbVBXtDzc0igtxR3CJpu8tiajfX0ytcDmNsgpHW3pn8yg3sVsoikcn-HhzSu8TRc3m2hsp2Ip8Fqmuivf2TgZnmYW87rQ0xDTE-V-sV1u_vuKP_Cy3lsVGSGvG0Hv2p-LS0q3eWB4pYTlSI2VMGahKtdP7H4P6nNchTugw6tv1ALau0f2P5OkKcEWRjTdV5Y_cessF5_DuS_ADvZ_iBLvEU1-YM6sfFJvX7vf8PTuBcJd9JcjvYIIl0CnOPUwlnxxJtoq5eJC0IQZRK7yPruHVgTvbeHlLvi9oIoHA400ag_wpl2Dx3p83BbM2x9psQP1aQ3ow9eBMNTim-VzV-daJESkaLhDhWxA8abnjBhUIVxiUfDSq-LWTe3LJRx6wzMAO6Tz2E9_ODMGn7zJnBEzgfXg1vSFREcCRKcJgn8JWB-rNPOeRg2bBX1kUnDYcgG0M9uafI1d-2FooNiKenaETLz0ZdmyCgfyv6_N5gEbCedTb7Rh1G26vVcwttqPucpXzy5EgxxXX_Qf6dYsFR17IMk4vDSwOrhZ1Loeh-VTZmnMwooxsBI07BvwMB95ORXR9U9BsaKDv-bCIWzSPf9Hp_aMbSlBjp1wVwZPx-P_Ew4ORA6cABpYTe9sVvJ2zSGUmB4\",\"bid\":\"11169322200508036\",\"useragent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36\",\"language\":\"en\",\"language_version\":\"58c8b887e8ee257775982959aed01e1e\",\"client_version\":\"5.1-3897-g3a3deb80\"}]");
     await Future.delayed(Duration(milliseconds: 500));
+    print("webauth");
   }
 
   Future<void> acceptPlay(String gameid) async {
     _channel.sink.add(
         "420[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${String.fromCharCode(97 + gameController.lastColumn)}${String.fromCharCode(97 + gameController.lastRow)}\",\"blur\":2646}]");
+
+    print(
+        "420[\"game/move\",{\"game_id\":$gameid,\"player_id\":$playerId,\"move\":\"${String.fromCharCode(97 + gameController.lastColumn)}${String.fromCharCode(97 + gameController.lastRow)}\",\"blur\":2646}]");
+  }
+
+  Future<void> listenToOpponent() async {
+    final subscription = _channel.stream.listen((data) => {
+          if (RegExp(
+                  "42\\[\"game\\/[0-9]+\/move\",{\"game_id\":[0-9]+,\"move_number\":[0-9]*,\"move\":\\[[0-9]*,[0-9]*,[0-9]*\\]}\\]")
+              .hasMatch(data))
+            {
+              //print("Opponent played a move");
+              //final Gamemove gamemove = Gamemove.fromRawJson(websocketIN.substring(2));
+              //It seems I am not able to parse the websocket like a json, the class I created for was for nothing, but I managed to edit the string to get the coords of the moves
+              print("found something")
+              /* gameController.setCoordValue(
+                  int.parse(data
+                      .substring(3, data.length - 3)
+                      .split("[")[1]
+                      .split(",")[0]),
+                  int.parse(data
+                      .substring(3, data.length - 3)
+                      .split("[")[1]
+                      .split(",")[1])) */
+            }
+          else
+            print("is not a move ${data.toString()}") //print(data.toString())
+        });
+    subscription.cancel();
   }
 
   GobanTest({Key? key}) : super(key: key);
@@ -152,9 +189,10 @@ class GobanTest extends StatelessWidget {
     );
   }
 
-  /* @override
+  @override
   void dispose() {
     _channel.sink.close();
-    super.dispose();
-  } */
+
+    //super.dispose();
+  }
 }
