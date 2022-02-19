@@ -7,10 +7,10 @@ class StoneShape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
-        height: 30,
-        width: 30,
+        height: 40,
+        width: 40,
         //padding: EdgeInsets.fromLTRB(0, 0, 50, 50),
 
         decoration: BoxDecoration(

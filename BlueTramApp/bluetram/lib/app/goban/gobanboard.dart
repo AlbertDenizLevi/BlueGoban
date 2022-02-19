@@ -45,7 +45,7 @@ class GobanBoard extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.all(
-                32), //this moves the stones created by the buildStones function into the right place
+                30), //this moves the stones created by the buildStones function into the right place
             child: GetBuilder<GameController>(
               builder: (GetxController gameController) => Row(
                 children: _buildBoard(),
